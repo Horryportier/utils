@@ -1,0 +1,34 @@
+#! /bin/bash
+
+# args: dir-name go.mod path main-name
+
+USAGE="\033[0;31mUsage: cr_go [dir name] [go.mod path] [main file \"name\"(if none creates main.go)]\033[0m"
+
+DIR_NAME="$1"
+GO_PATH="$2"
+MAIN_NAME="$3"
+
+if [[ -z "$DIR_NAME" ]]; then
+        echo -e $USAGE
+        exit 1
+fi
+
+if [[ -z "$GO_PATH" ]]; then
+        echo -e "\033[0;31mgo.mod needs path \033[1;32m(example/x)\033[0m"
+        echo -e $USAGE
+        exit 1
+fi
+
+mkdir "$(pwd)/$DIR_NAME"
+
+cd "$(pwd)/$DIR_NAME"
+
+go mod init GO_PATH
+
+if [[ -z "$MAIN_NAME" ]]; then
+        touch "main.go"
+        exit 0
+fi
+
+touch "$MAIN_NAME.go"
+exit 0
